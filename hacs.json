@@ -1,0 +1,6 @@
+{
+  "name": "Home Assistant Assist Card",
+  "render_readme": true,
+  "filename": "homeassistant-assist-card.js",
+  "content_in_root": false
+}

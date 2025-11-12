@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  build-and-release:
+    name: Build and Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Build project
+        run: npm run build
+
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create dist archive
+        run: |
+          cd dist
+          zip -r ../homeassistant-assist-card-${{ steps.version.outputs.version }}.zip .
+          cd ..
+
+      - name: Generate checksum
+        run: |
+          sha256sum homeassistant-assist-card-${{ steps.version.outputs.version }}.zip > homeassistant-assist-card-${{ steps.version.outputs.version }}.zip.sha256
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', github.event.inputs.version) || github.ref_name }}
+          name: Release ${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            homeassistant-assist-card-${{ steps.version.outputs.version }}.zip
+            homeassistant-assist-card-${{ steps.version.outputs.version }}.zip.sha256
+            dist/homeassistant-assist-card.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on success
+        if: success()
+        run: |
+          echo "✅ Release ${{ steps.version.outputs.version }} created successfully!"
+          echo "📦 Artifacts uploaded:"
+          echo "   - homeassistant-assist-card-${{ steps.version.outputs.version }}.zip"
+          echo "   - homeassistant-assist-card.js"
