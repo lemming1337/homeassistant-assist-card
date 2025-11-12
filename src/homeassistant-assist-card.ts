@@ -124,8 +124,7 @@ export class HomeAssistantAssistCard extends LitElement {
 
       const assistMessage: AssistMessage = {
         who: 'hass',
-        text:
-          response.response.speech.plain.extra_data?.original_response || response.response.speech.plain.speech,
+        text: response.response.speech.plain.extra_data?.original_response || response.response.speech.plain.speech,
         timestamp: new Date(),
         tool_calls: response.response.data?.tool_calls,
       };
@@ -215,10 +214,7 @@ export class HomeAssistantAssistCard extends LitElement {
         ${message.tool_calls.map(
           (tool, toolIndex) => html`
             <div class="tool-call">
-              <div
-                class="tool-call-header"
-                @click=${() => this._toggleToolCall(messageIndex, toolIndex)}
-              >
+              <div class="tool-call-header" @click=${() => this._toggleToolCall(messageIndex, toolIndex)}>
                 <span class="tool-icon">${tool.expanded ? '▼' : '▶'}</span>
                 <span class="tool-name">Tool: ${tool.tool_name}</span>
               </div>
@@ -259,9 +255,7 @@ export class HomeAssistantAssistCard extends LitElement {
           <div class="message-text">
             ${isUser
               ? html`<div>${message.text}</div>`
-              : html`<div class="markdown-content">
-                  ${unsafeHTML(this._renderMarkdown(message.text))}
-                </div>`}
+              : html`<div class="markdown-content">${unsafeHTML(this._renderMarkdown(message.text))}</div>`}
           </div>
           ${this._renderToolCalls(message, index)}
         </div>
