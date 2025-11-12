@@ -143,20 +143,80 @@ npm run watch
 
 # Linting
 npm run lint
+
+# Code formatieren
+npm run format
+
+# Formatierung prüfen
+npm run format:check
 ```
+
+### GitHub Workflows
+
+Das Projekt verfügt über automatisierte GitHub Actions Workflows:
+
+#### CI Workflow (`.github/workflows/ci.yml`)
+Läuft bei jedem Push und Pull Request:
+- **Lint & Format Check**: ESLint und Prettier Prüfungen
+- **Build**: Erstellt die JavaScript-Artefakte
+- **Type Check**: TypeScript Typ-Überprüfung
+
+```bash
+# Wird ausgelöst bei:
+# - Push auf main, dev oder claude/** Branches
+# - Pull Requests zu main oder dev
+```
+
+#### Release Workflow (`.github/workflows/release.yml`)
+Erstellt offizielle Releases:
+- Läuft bei Git-Tags (`v*.*.*`) oder manuell
+- Erstellt ZIP-Archive mit Build-Artefakten
+- Generiert SHA256-Checksummen
+- Veröffentlicht GitHub Release mit Artefakten
+
+```bash
+# Release erstellen:
+git tag v1.0.0
+git push origin v1.0.0
+
+# Oder manuell in GitHub Actions ausführen
+```
+
+#### Build Artifact Workflow (`.github/workflows/build-artifact.yml`)
+Erstellt Build-Artefakte für den main Branch:
+- Läuft bei jedem Push auf main
+- Speichert Build-Artefakte für 30 Tage
+- Fügt Build-Informationen hinzu (Commit, Datum, etc.)
+
+### Code-Qualität
+
+Das Projekt verwendet:
+- **ESLint**: Für Code-Linting und Best Practices
+- **Prettier**: Für konsistente Code-Formatierung
+- **TypeScript**: Für Typ-Sicherheit
 
 ### Projekt-Struktur
 
 ```
 homeassistant-assist-card/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml                    # CI/CD Pipeline
+│       ├── release.yml               # Release Workflow
+│       └── build-artifact.yml        # Build Artefakte
 ├── src/
 │   └── homeassistant-assist-card.ts  # Haupt-Implementation
 ├── dist/
 │   └── homeassistant-assist-card.js  # Gebundelte Datei
-├── package.json
-├── tsconfig.json
-├── rollup.config.js
-└── README.md
+├── eslint.config.js                  # ESLint 9 Flat Config
+├── .prettierrc                       # Prettier Konfiguration
+├── .prettierignore                   # Prettier Ignore-Datei
+├── hacs.json                         # HACS Manifest
+├── package.json                      # Dependencies & Scripts
+├── package-lock.json                 # Lockfile
+├── tsconfig.json                     # TypeScript Konfiguration
+├── rollup.config.js                  # Rollup Build-Config
+└── README.md                         # Dokumentation
 ```
 
 ### Technologie-Stack

@@ -256,9 +256,7 @@ export class HomeAssistantAssistCard extends LitElement {
           </div>
           ${this._renderToolCalls(message, index)}
         </div>
-        <div class="message-timestamp">
-          ${message.timestamp.toLocaleTimeString()}
-        </div>
+        <div class="message-timestamp">${message.timestamp.toLocaleTimeString()}</div>
       </div>
     `;
   }
@@ -272,9 +270,7 @@ export class HomeAssistantAssistCard extends LitElement {
       <ha-card .header=${this._config.title}>
         <div class="card-content">
           <div class="conversation-container">
-            ${this._conversation.map((message, index) =>
-              this._renderMessage(message, index)
-            )}
+            ${this._conversation.map((message, index) => this._renderMessage(message, index))}
             ${this._isLoading
               ? html`
                   <div class="message assistant-message">
@@ -293,8 +289,7 @@ export class HomeAssistantAssistCard extends LitElement {
             <textarea
               class="message-input"
               .value=${this._inputText}
-              @input=${(e: Event) =>
-                (this._inputText = (e.target as HTMLTextAreaElement).value)}
+              @input=${(e: Event) => (this._inputText = (e.target as HTMLTextAreaElement).value)}
               @keypress=${this._handleKeyPress}
               placeholder=${this._config.placeholder || 'Ask me anything...'}
               ?disabled=${this._isLoading}
@@ -306,10 +301,7 @@ export class HomeAssistantAssistCard extends LitElement {
               ?disabled=${this._isLoading || !this._inputText.trim()}
             >
               <svg viewBox="0 0 24 24" width="24" height="24">
-                <path
-                  fill="currentColor"
-                  d="M2,21L23,12L2,3V10L17,12L2,14V21Z"
-                />
+                <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z" />
               </svg>
             </button>
           </div>
