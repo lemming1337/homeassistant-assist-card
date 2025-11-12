@@ -49,7 +49,7 @@ title: Assist
 ```yaml
 type: custom:homeassistant-assist-card
 title: Mein Assistent
-pipeline_id: preferred  # Optional: Spezifische Pipeline
+agent_id: preferred     # Optional: Spezifischer Agent
 show_tools: true        # Optional: Tool Calls anzeigen (Standard: false)
 placeholder: Frage mich etwas...  # Optional: Platzhalter-Text
 ```
@@ -60,7 +60,7 @@ placeholder: Frage mich etwas...  # Optional: Platzhalter-Text
 |--------|-----|----------|--------------|
 | `type` | string | **erforderlich** | Muss `custom:homeassistant-assist-card` sein |
 | `title` | string | `"Assist"` | Titel der Card |
-| `pipeline_id` | string | - | ID der zu verwendenden Assist Pipeline |
+| `agent_id` | string | - | ID des zu verwendenden Conversation Agent |
 | `show_tools` | boolean | `false` | Zeigt verwendete Tools und deren Ein-/Ausgabe |
 | `placeholder` | string | `"Ask me anything..."` | Platzhalter im Eingabefeld |
 

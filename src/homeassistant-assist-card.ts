@@ -6,7 +6,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 interface HomeAssistantConfig {
   type: string;
   title?: string;
-  pipeline_id?: string;
+  agent_id?: string;
   show_tools?: boolean;
   placeholder?: string;
 }
@@ -152,8 +152,8 @@ export class HomeAssistantAssistCard extends LitElement {
       request.conversation_id = this._conversationId;
     }
 
-    if (this._config?.pipeline_id) {
-      request.pipeline_id = this._config.pipeline_id;
+    if (this._config?.agent_id) {
+      request.agent_id = this._config.agent_id;
     }
 
     const response = await this.hass.callWS(request);
