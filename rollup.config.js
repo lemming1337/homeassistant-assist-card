@@ -19,7 +19,8 @@ export default {
     commonjs(),
     json(),
     typescript({
-      tsconfig: './tsconfig.json'
+      tsconfig: './tsconfig.json',
+      outputToFilesystem: true
     }),
     terser()
   ]
