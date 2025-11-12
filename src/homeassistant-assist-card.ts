@@ -124,7 +124,7 @@ export class HomeAssistantAssistCard extends LitElement {
       const assistMessage: AssistMessage = {
         who: 'hass',
         text:
-          response.response.extra_data?.original_response || response.response.speech.plain.speech,
+          response.response.speech.extra_data?.original_response || response.response.speech.plain.speech,
         timestamp: new Date(),
         tool_calls: response.response.data?.tool_calls,
       };
