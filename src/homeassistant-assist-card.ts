@@ -123,8 +123,7 @@ export class HomeAssistantAssistCard extends LitElement {
 
       const assistMessage: AssistMessage = {
         who: 'hass',
-        text:
-          response.response.extra_data?.original_response || response.response.speech.plain.speech,
+        text: response.response.extra_data?.original_response || response.response.speech.plain.speech,
         timestamp: new Date(),
         tool_calls: response.response.data?.tool_calls,
       };
@@ -195,8 +194,8 @@ export class HomeAssistantAssistCard extends LitElement {
     try {
       return marked.parse(text, {
         async: false,
-        breaks: true, // Enable line breaks (GitHub Flavored Markdown)
-        gfm: true, // Enable GitHub Flavored Markdown
+        breaks: true,  // Enable line breaks (GitHub Flavored Markdown)
+        gfm: true      // Enable GitHub Flavored Markdown
       }) as string;
     } catch (error) {
       console.error('Error rendering markdown:', error);
