@@ -36,6 +36,7 @@ interface ConversationResponse {
     speech: {
       plain: {
         speech: string;
+        extra_data: any;
       };
     };
     data?: {
