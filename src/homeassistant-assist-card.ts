@@ -41,6 +41,9 @@ interface ConversationResponse {
     data?: {
       tool_calls?: ToolCall[];
     };
+    extra_data?: {
+      original_response?: string;
+    };
   };
 }
 
@@ -120,7 +123,7 @@ export class HomeAssistantAssistCard extends LitElement {
 
       const assistMessage: AssistMessage = {
         who: 'hass',
-        text: response.response.speech.plain.speech,
+        text: response.response.extra_data?.original_response || response.response.speech.plain.speech,
         timestamp: new Date(),
         tool_calls: response.response.data?.tool_calls,
       };
@@ -189,7 +192,11 @@ export class HomeAssistantAssistCard extends LitElement {
 
   private _renderMarkdown(text: string): string {
     try {
-      return marked.parse(text, { async: false }) as string;
+      return marked.parse(text, {
+        async: false,
+        breaks: true,  // Enable line breaks (GitHub Flavored Markdown)
+        gfm: true      // Enable GitHub Flavored Markdown
+      }) as string;
     } catch (error) {
       console.error('Error rendering markdown:', error);
       return text;
